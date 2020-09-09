@@ -12,6 +12,7 @@ django-oauth-toolkit = "*"
 django-cors-middleware = "*"
 django-rest-framework = "*"
 daphne = "*"
+gunicorn = "*"
 
 [requires]
 python_version = "3.8"
