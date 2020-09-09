@@ -17,7 +17,6 @@ import django_heroku
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 
-django_heroku.settings(locals())
 
 
 # Quick-start development settings - unsuitable for production
@@ -141,3 +140,5 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 SESSION_COOKIE_SECURE= True
 CSRF_COOKIE_SECURE = True
+
+django_heroku.settings(locals())
