@@ -1,1 +1,1 @@
-web: gunicorn DionysosBack.wsgi
+web: gunicorn DionysosBack.wsgi --log-file -
