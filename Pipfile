@@ -14,6 +14,7 @@ django-rest-framework = "*"
 daphne = "*"
 gunicorn = "*"
 django-heroku = "*"
+stripe = "*"
 
 [requires]
 python_version = "3.8"
