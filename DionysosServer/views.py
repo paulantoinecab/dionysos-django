@@ -188,4 +188,10 @@ def create_account(request):
 
 @protected_resource()
 def get_user_info(request):
-        return HttpResponse(request.user, status=200)
+    response = {
+        "username": request.user.username,
+        "first_name": request.user.first_name,
+        "last_name": request.user.last_name
+        }
+
+    return JsonResponse(response, status=200)
