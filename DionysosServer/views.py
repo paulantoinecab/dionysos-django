@@ -19,7 +19,7 @@ from django.db import IntegrityError
 
 # Models
 from .models import Table, Restaurant, Section, Category, FoodSection, Food, Order, User, UserProfile, OrderedFood
-
+from oauth2_provider.models import AccessToken
 # Authentication
 from django.contrib.auth import authenticate, login, logout
 
