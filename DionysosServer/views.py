@@ -6,6 +6,7 @@ from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
+from oauth2_provider.decorators import protected_resource
 
 # HTTP responses
 from django.http import HttpResponse, Http404, JsonResponse, HttpResponseBadRequest
@@ -185,10 +186,6 @@ def create_account(request):
         restaurateur.save()
     return JsonResponse({"message": "Success"}, status=200)
 
-
-def log_out(request):
-    if request.user.is_authenticated:
-        logout(request)
-        return HttpResponse("Success")
-    return HttpResponse("User not logged in.")
-
+@protected_resource()
+def get_user_info(request):
+        return JsonResponse({"message": request.user}, status=200)
