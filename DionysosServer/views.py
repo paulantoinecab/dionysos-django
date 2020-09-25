@@ -188,4 +188,4 @@ def create_account(request):
 
 @protected_resource()
 def get_user_info(request):
-        return JsonResponse({"message": request.user}, status=200)
+        return HttpResponse(request.user}, status=200)
