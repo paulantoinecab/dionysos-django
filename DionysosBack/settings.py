@@ -123,8 +123,8 @@ STATIC_URL = '/static/'
 
 
 DEFAULT_FILE_STORAGE = 'DionysosBack.customMediaStorage.MediaStorage'
-AWS_STORAGE_BUCKET_NAME - 'dionysosdev'
-AWS_S3_REGION_NAME - 'eu-west-1'
+AWS_STORAGE_BUCKET_NAME = 'dionysosdev'
+AWS_S3_REGION_NAME = 'eu-west-1'
 
 CORS_ORIGIN_ALLOW_ALL = True
 
