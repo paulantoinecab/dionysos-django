@@ -54,6 +54,8 @@ PyHamcrest = "==2.0.2"
 pyOpenSSL = "==19.1.0"
 service_identity = "==18.1.0"
 Twisted = "==20.3.0"
+boto3 = "*"
+django-storages = "*"
 
 [requires]
 python_version = "3.8"
