@@ -25,7 +25,7 @@ class Restaurant(models.Model):
         return 'restaurant/restaurant_{0}/{1}'.format(self.id, filename)
 
     def save(self, *args, **kwargs):
-        image_file = io.StringIO(self.profilePic.file.read())
+        image_file = io.BytesIO(self.profilePic.file.read())
         image = Image.open(image_file)
         hash_ = blurhash.encode(numpy.array(image.convert("RGB")))
 
