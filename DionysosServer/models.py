@@ -74,6 +74,7 @@ class Section(models.Model):
     public_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
     name = models.CharField(max_length=70)
+    order = models.SmallIntegerField()
 
 class Category(models.Model):
     def __str__(self):
@@ -108,6 +109,7 @@ class Category(models.Model):
     name = models.CharField(max_length=70)
     image = models.ImageField(upload_to=category_directory_path)
     imageHash = models.CharField(max_length=50, null=True, blank=True)
+    order = models.SmallIntegerField()
 
 class FoodSection(models.Model):
     def __str__(self):
@@ -123,6 +125,7 @@ class FoodSection(models.Model):
     public_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     name = models.CharField(max_length=70)
+    order = models.SmallIntegerField()
 
 class Food(models.Model):
     def __str__(self):
@@ -169,6 +172,7 @@ class Food(models.Model):
     ingredients = models.CharField(max_length=1000)
     image = models.ImageField(upload_to=food_directory_path)
     imageHash = models.CharField(max_length=50, null=True, blank=True)
+    order = models.SmallIntegerField()
 
 class OrderedFood(models.Model):
     def __str__(self):
