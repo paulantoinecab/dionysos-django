@@ -131,4 +131,17 @@ CORS_ORIGIN_ALLOW_ALL = True
 SESSION_COOKIE_SECURE= True
 CSRF_COOKIE_SECURE = True
 
+import os
+SECRET_KEY = os.getenv('SECRET_KEY')
 django_heroku.settings(locals())
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'Dionysos',
+        'USER': 'postgres',
+        'PASSWORD': 'root',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+    }
+}
