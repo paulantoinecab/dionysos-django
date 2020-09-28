@@ -31,11 +31,15 @@ class Restaurant(models.Model):
     def save(self, *args, **kwargs):
         image_file = io.BytesIO(self.profilePic.file.read())
         image = Image.open(image_file)
-        image.thumbnail(THUMBNAIL_SIZE)
-        hash_ = blurhash.encode(numpy.array(image.convert("RGB")))
+        thumbnail_image = image.copy()
+        thumbnail_image.thumbnail(THUMBNAIL_SIZE)
+        image.resize(IMAGE_SIZE)
+        hash_ = blurhash.encode(numpy.array(thumbnail_image.convert("RGB")))
+        thumb_io = io.BytesIO()
+        image.save(thumb_io, image.format, quality=60)
 
-        if self.profilePicHash is None:
-            self.profilePicHash = hash_
+        self.profilePicHash = hash_
+        self.profilePic.save(image.filename, ContentFile(thumb_io.getvalue()), save=False)
         super(Restaurant, self).save(*args, **kwargs)
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -98,12 +102,15 @@ class Category(models.Model):
     def save(self, *args, **kwargs):
         image_file = io.BytesIO(self.image.file.read())
         image = Image.open(image_file)
-        image.thumbnail(THUMBNAIL_SIZE)
+        thumbnail_image = image.copy()
+        thumbnail_image.thumbnail(THUMBNAIL_SIZE)
+        image.resize(IMAGE_SIZE)
+        hash_ = blurhash.encode(numpy.array(thumbnail_image.convert("RGB")))
+        thumb_io = io.BytesIO()
+        image.save(thumb_io, image.format, quality=60)
 
-        hash_ = blurhash.encode(numpy.array(image.convert("RGB")))
-
-        if self.imageHash is None:
-            self.imageHash = hash_
+        self.imageHash = hash_
+        self.image.save(image.filename, ContentFile(thumb_io.getvalue()), save=False)
         super(Category, self).save(*args, **kwargs)
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
