@@ -15,7 +15,7 @@ class Restaurant(models.Model):
         return {
             "id": self.public_id,
             "name": self.name,
-            "profilePic": self.profilePic.url
+            "profilePic": self.profilePic.url,
             "profilePicHash": self.profilePicHash
         }
 
