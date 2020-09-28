@@ -3,6 +3,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 from django.db.models import Sum
+from django.core.files.base import ContentFile
 from PIL import Image
 import numpy
 import blurhash
@@ -162,8 +163,11 @@ class Food(models.Model):
         thumbnail_image.thumbnail(THUMBNAIL_SIZE)
         image.resize(IMAGE_SIZE)
         hash_ = blurhash.encode(numpy.array(thumbnail_image.convert("RGB")))
+        thumb_io = io.BytesIO()
+        image.save(thumb_io, image.format, quality=60)
+
         self.imageHash = hash_
-        image.save(image.filename, quality=60)
+        self.image.save(im.filename, ContentFile(thumb_io.getvalue()), save=False)
         super(Food, self).save(*args, **kwargs)
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
