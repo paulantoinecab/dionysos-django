@@ -9,6 +9,7 @@ import blurhash
 import io
 
 THUMBNAIL_SIZE = (64, 64)
+IMAGE_SIZE = (640, 426)
 
 class Restaurant(models.Model):
     def __str__(self):
@@ -30,7 +31,6 @@ class Restaurant(models.Model):
         image_file = io.BytesIO(self.profilePic.file.read())
         image = Image.open(image_file)
         image.thumbnail(THUMBNAIL_SIZE)
-
         hash_ = blurhash.encode(numpy.array(image.convert("RGB")))
 
         if self.profilePicHash is None:
@@ -151,11 +151,12 @@ class Food(models.Model):
     def save(self, *args, **kwargs):
         image_file = io.BytesIO(self.image.file.read())
         image = Image.open(image_file)
-        image.thumbnail(THUMBNAIL_SIZE)
-        hash_ = blurhash.encode(numpy.array(image.convert("RGB")))
-
-        if self.imageHash is None:
-            self.imageHash = hash_
+        thumbnail_image = image.copy()
+        thumbnail_image.thumbnail(THUMBNAIL_SIZE)
+        image.resize(IMAGE_SIZE)
+        hash_ = blurhash.encode(numpy.array(thumbnail_image.convert("RGB")))
+        self.imageHash = hash_
+        self.image = image
         super(Food, self).save(*args, **kwargs)
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
