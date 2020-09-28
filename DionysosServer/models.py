@@ -163,7 +163,7 @@ class Food(models.Model):
         image.resize(IMAGE_SIZE)
         hash_ = blurhash.encode(numpy.array(thumbnail_image.convert("RGB")))
         self.imageHash = hash_
-        self.image = image
+        image.save(image.filename, quality=60)
         super(Food, self).save(*args, **kwargs)
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
