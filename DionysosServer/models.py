@@ -3,6 +3,9 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 from django.db.models import Sum
+from PIL import Image
+import numpy
+import blurhash
 
 class Restaurant(models.Model):
     def __str__(self):
@@ -13,16 +16,27 @@ class Restaurant(models.Model):
             "id": self.public_id,
             "name": self.name,
             "profilePic": self.profilePic.url
+            "profilePicHash": self.profilePicHash
         }
 
     def restaurant_profile_pic_directory_path(self, filename):
         # file will be uploaded to MEDIA_ROOT/restaurant_<id>/<filename>
         return 'restaurant/restaurant_{0}/{1}'.format(self.id, filename)
 
+    def save(self, *args, **kwargs):
+        image_file = StringIO.StringIO(self.profilePic.file.read())
+        image = Image.open(image_file)
+        hash_ = blurhash.encode(numpy.array(image.convert("RGB")))
+
+        if self.profilePicHash is None:
+            self.profilePicHash = hash_
+        super(Restaurant, self).save(*args, **kwargs)
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     public_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     name = models.CharField(max_length=200)
     profilePic = models.ImageField(upload_to=restaurant_profile_pic_directory_path)
+    profilePicHash = models.CharField(max_length=50, null=True, blank=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
 
 class Table(models.Model):

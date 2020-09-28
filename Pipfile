@@ -56,6 +56,8 @@ service_identity = "==18.1.0"
 Twisted = "==20.3.0"
 boto3 = "*"
 django-storages = "*"
+blurhash = "*"
+numpy = "*"
 
 [requires]
 python_version = "3.8"
