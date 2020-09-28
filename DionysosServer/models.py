@@ -68,6 +68,7 @@ class Section(models.Model):
         return {
             "id": self.public_id,
             "name": self.name,
+            "order": self.order
         }
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -89,7 +90,8 @@ class Category(models.Model):
             "id": self.public_id,
             "name": self.name,
             "image": self.image.url,
-            "imageHash": self.imageHash
+            "imageHash": self.imageHash,
+            "order": self.order
         }
 
     def save(self, *args, **kwargs):
@@ -118,7 +120,8 @@ class FoodSection(models.Model):
     def to_json(self):
         return {
             "id": self.public_id,
-            "name": self.name
+            "name": self.name,
+            "order": self.order
         }
     
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -148,7 +151,8 @@ class Food(models.Model):
             "description": self.description,
             "ingredients": self.ingredients,
             "image": self.image.url,
-            "imageHash": self.imageHash
+            "imageHash": self.imageHash,
+            "order": self.order
         }
 
     def save(self, *args, **kwargs):
