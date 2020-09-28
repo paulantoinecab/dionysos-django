@@ -167,7 +167,7 @@ class Food(models.Model):
         image.save(thumb_io, image.format, quality=60)
 
         self.imageHash = hash_
-        self.image.save(im.filename, ContentFile(thumb_io.getvalue()), save=False)
+        self.image.save(image.filename, ContentFile(thumb_io.getvalue()), save=False)
         super(Food, self).save(*args, **kwargs)
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
