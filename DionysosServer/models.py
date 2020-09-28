@@ -83,14 +83,25 @@ class Category(models.Model):
         return {
             "id": self.public_id,
             "name": self.name,
-            "image": self.image.url
+            "image": self.image.url,
+            "imageHash": self.imageHash
         }
+
+    def save(self, *args, **kwargs):
+        image_file = io.BytesIO(self.image.file.read())
+        image = Image.open(image_file)
+        hash_ = blurhash.encode(numpy.array(image.convert("RGB")))
+
+        if self.imageHash is None:
+            self.imageHash = hash_
+        super(Category, self).save(*args, **kwargs)
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     public_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     section = models.ForeignKey(Section, on_delete=models.CASCADE)
     name = models.CharField(max_length=70)
     image = models.ImageField(upload_to=category_directory_path)
+    imageHash = models.CharField(max_length=50, null=True, blank=True)
 
 class FoodSection(models.Model):
     def __str__(self):
@@ -127,8 +138,18 @@ class Food(models.Model):
             "price": self.price,
             "description": self.description,
             "ingredients": self.ingredients,
-            "image": self.image.url
+            "image": self.image.url,
+            "imageHash": self.imageHash
         }
+
+    def save(self, *args, **kwargs):
+        image_file = io.BytesIO(self.image.file.read())
+        image = Image.open(image_file)
+        hash_ = blurhash.encode(numpy.array(image.convert("RGB")))
+
+        if self.imageHash is None:
+            self.imageHash = hash_
+        super(Food, self).save(*args, **kwargs)
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     public_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
@@ -139,6 +160,7 @@ class Food(models.Model):
     description = models.CharField(max_length=1000)
     ingredients = models.CharField(max_length=1000)
     image = models.ImageField(upload_to=food_directory_path)
+    imageHash = models.CharField(max_length=50, null=True, blank=True)
 
 class OrderedFood(models.Model):
     def __str__(self):
