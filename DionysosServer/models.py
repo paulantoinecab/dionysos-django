@@ -214,9 +214,9 @@ class Order(models.Model):
 
     def to_json(self):
         ordered_foods = []
-        for ordered_food in self.ordered_foods:
+        for ordered_food in self.ordered_foods.all():
             ordered_foods.append(ordered_food.to_json())
-            
+
         return {
             "id": self.public_id,
             "name": self.name,
