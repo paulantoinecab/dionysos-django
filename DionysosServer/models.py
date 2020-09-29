@@ -219,9 +219,10 @@ class Order(models.Model):
 
         return {
             "id": self.id,
-            "name": self.name,
+            "state": self.state,
             "restaurant": self.restaurant.to_json(),
             "table": self.table.to_json(),
+            "order_time": self.order_time,
             "order": ordered_foods
         }
 
