@@ -223,7 +223,7 @@ class Order(models.Model):
             "restaurant": self.restaurant.to_json(),
             "table": self.table.to_json(),
             "order_time": self.order_time,
-            "order": ordered_foods
+            "foods": ordered_foods
         }
 
     class OrderState(models.TextChoices):
