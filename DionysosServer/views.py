@@ -193,5 +193,9 @@ def get_user_info(request):
         "first_name": request.user.first_name,
         "last_name": request.user.last_name
         }
-
+    orders_array = []
+    orders = Order.objects.filter(user=request.user)
+    for order in orders:
+        orders_array.append(order.to_json())
+    response["orders"] = orders_array
     return JsonResponse(response, status=200)

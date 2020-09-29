@@ -193,6 +193,13 @@ class OrderedFood(models.Model):
     def __str__(self):
         return f"{self.id}, quantité: {self.quantity}, prix unitaire payé : {self.paid_price}"
     
+    def to_json(self):
+        return {
+            "food": self.food.to_json(),
+            "quantity": self.quantity,
+            "price": self.paid_price,
+        }
+    
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     food = models.ForeignKey(Food, on_delete=models.CASCADE)
     quantity = models.IntegerField()
@@ -204,6 +211,17 @@ class Order(models.Model):
         for food in self.ordered_foods.all():
             sum += food.paid_price * food.quantity
         return f"{self.state} - Commande {self.id}, ({self.ordered_foods.aggregate(Sum('quantity'))['quantity__sum']} produits, {sum}€), "
+
+    def to_json(self):
+        ordered_foods = []
+        for ordered_food in self.ordered_foods:
+            ordered_foods.append(ordered_food.to_json())
+            
+        return {
+            "id": self.public_id,
+            "name": self.name,
+            "order": ordered_foods
+        }
 
     class OrderState(models.TextChoices):
         VALIDEE = 'VA', _('Validée')
