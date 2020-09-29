@@ -218,8 +218,10 @@ class Order(models.Model):
             ordered_foods.append(ordered_food.to_json())
 
         return {
-            "id": self.public_id,
+            "id": self.id,
             "name": self.name,
+            "restaurant": self.restaurant.to_json(),
+            "table": self.table.to_json(),
             "order": ordered_foods
         }
 
