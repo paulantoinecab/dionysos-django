@@ -9,5 +9,5 @@ urlpatterns = [
     path('order/', views.create_order, name='Create payment intent'),
     path('account/create', views.create_account, name='Create user account'),
     path('account/userinfo', views.get_user_info, name='User info'),
-    path('stripe/ephemeralkey', views.stripe_create_ephemeral_key, name="Create Stripe ephemeral key"),
+    path('stripe/ephemeralkey<str:API_VERSION>', views.stripe_create_ephemeral_key, name="Create Stripe ephemeral key"),
 ]
