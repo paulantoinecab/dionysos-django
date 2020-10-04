@@ -208,4 +208,4 @@ def stripe_create_ephemeral_key(request):
 
     CUSTOMER_ID = request.user.userprofile.stripe_id
     key = stripe.EphemeralKey.create(customer=f'{CUSTOMER_ID}', stripe_version=f'{API_VERSION}')
-    return HttpResponse(key, status=200)
+    return JsonResponse(key, status=200)
