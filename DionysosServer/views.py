@@ -175,11 +175,12 @@ def create_account(request):
         user = User.objects.create_user(email, email, password, first_name=first_name, last_name=last_name)
     except IntegrityError:
         return JsonResponse({"message": "L'email existe déjà dans la base de données.","error": "duplicatedEmail"}, status=400)
+    
+    stripe_customer = stripe.Customer.create(email=email)
 
-    if is_restaurateur:
-        restaurateur = UserProfile(is_restaurateur=True)
-        restaurateur.user = user
-        restaurateur.save()
+    user_profile = UserProfile(is_restaurateur=is_restaurateur if is_restaurateur else False, stripe_id=stripe_customer.id)
+    user_profile.user = user
+    user_profile.save()
     return JsonResponse({"message": "Success"}, status=200)
 
 @protected_resource()
