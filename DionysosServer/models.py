@@ -248,6 +248,7 @@ class Order(models.Model):
 class UserProfile(models.Model):
     def __str__(self):
         return f"{self.user.username}, restaurateur = {self.is_restaurateur}"
+
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     is_restaurateur = models.BooleanField(default=False)
     stripe_id = models.CharField(max_length=100)
