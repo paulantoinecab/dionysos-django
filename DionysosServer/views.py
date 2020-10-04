@@ -206,6 +206,6 @@ def stripe_create_ephemeral_key(request):
         return JsonResponse({"message": 'Required parameter : API_VERSION', "error": "missingParameter"} ,status=400)
 
 
-    CUSTOMER_ID = request.user.id
+    CUSTOMER_ID = request.user.stripe_id
     key = stripe.EphemeralKey.create(customer=f'{CUSTOMER_ID}', stripe_version=f'{API_VERSION}')
     return HttpResponse(key, status=200)
