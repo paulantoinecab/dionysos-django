@@ -31,10 +31,6 @@ import json
 
 stripe.api_key = 'sk_test_51HGhdZAGNFbVchRHoIFnNKCmNUJuydMkWrdfRmjj6p8z8z1tVKL4vdW2FBj7185uRTc9qj7kLRtQlKk1c07YZa3u00ZoWXSKgv'
 
-
-def index(request):
-    return HttpResponse("Hello, world. This is Dionysos' API.")
-
 def sit_to_table(request, table_id):
     table = get_object_or_404(Table, public_id=table_id)
     restaurant = get_object_or_404(Restaurant, pk=table.restaurant.id)
@@ -199,3 +195,9 @@ def get_user_info(request):
         orders_array.append(order.to_json())
     response["orders"] = orders_array
     return JsonResponse(response, status=200)
+
+@protected_resource()
+def stripe_create_ephemeral_key(request, API_VERSION):
+    CUSTOMER_ID = request.user.id
+    key = stripe.EphemeralKey.create(customer=f'{CUSTOMER_ID}', stripe_version=f'{API_VERSION}')
+    return HttpResponse(key, status=200)
