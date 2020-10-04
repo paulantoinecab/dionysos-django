@@ -197,8 +197,14 @@ def get_user_info(request):
     return JsonResponse(response, status=200)
 
 @protected_resource()
-@require_http_methods(['POST'])
-def stripe_create_ephemeral_key(request, API_VERSION):
+@require_http_methods(['GET'])
+def stripe_create_ephemeral_key(request):
+    try:
+        API_VERSION = request.GET["API_VERSION"]
+    except KeyError:
+        return JsonResponse({"message": 'Required parameter : API_VERSION', "error": "missingParameter"} ,status=400)
+
+
     CUSTOMER_ID = request.user.id
     key = stripe.EphemeralKey.create(customer=f'{CUSTOMER_ID}', stripe_version=f'{API_VERSION}')
     return HttpResponse(key, status=200)
