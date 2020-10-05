@@ -148,11 +148,13 @@ def stripe_webhook(request):
 @require_http_methods(['POST'])
 def create_account(request):
     try:
-        email = request.POST['email']
-        password = request.POST['password']
-        password2 = request.POST['password2']
-        first_name = request.POST['firstName'].strip()
-        last_name = request.POST['lastName'].strip()
+        content = json.loads(request.body)
+
+        email = content['email']
+        password = content['password']
+        password2 = content['password2']
+        first_name = content['firstName'].strip()
+        last_name = content['lastName'].strip()
 
     except KeyError:
         return JsonResponse({"message": 'Required fields : email, password, password2, firstName, lastName', "error": "missingFields"} ,status=400)
