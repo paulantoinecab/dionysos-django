@@ -78,11 +78,10 @@ def sit_to_table(request, table_id):
 def create_order(request):
     if request.user.is_authenticated:
         try:
-            content = json.loads(request.data)
-            foods = content["foods"]
-            table_id = content["table"]["id"]
+            foods = request.POST["foods"]
+            table_id = request.POST["table"]["id"]
         except (KeyError, Exception):
-            return JsonResponse({"message": f'Missing foods, {request.POST}'} ,status=400)
+            return JsonResponse({"message": f'Missing foods, {request.POST.keys()}'} ,status=400)
         
         order = Order.objects.create(user=request.user, state=Order.OrderState.VALIDEE)
         ordered_foods = []
