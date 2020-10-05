@@ -183,8 +183,17 @@ def create_account(request):
     
     name = f"{first_name} {last_name}"
     stripe_customer = stripe.Customer.create(email=email , name=name)
+    stripe_account_id = None
+    if is_restaurateur:
+        stripe_account = stripe.Account.create(
+            type="express",
+            country="FR",
+            email=email,
+        )
+        stripe_account_id = stripe_account.id
 
-    user_profile = UserProfile(is_restaurateur=is_restaurateur if is_restaurateur else False, stripe_id=stripe_customer.id)
+
+    user_profile = UserProfile(is_restaurateur=is_restaurateur if is_restaurateur else False, stripe_id=stripe_customer.id, stripe_seller_id=stripe_account_id)
     user_profile.user = user
     user_profile.save()
     return JsonResponse({"message": "Success"}, status=200)

@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 from django.db.models import Sum
 from django.core.files.base import ContentFile
+from django.core.exceptions import ValidationError
+
 from PIL import Image
 import numpy
 import blurhash
@@ -249,6 +251,12 @@ class UserProfile(models.Model):
     def __str__(self):
         return f"{self.user.username}, restaurateur = {self.is_restaurateur}"
 
+    def validate(self, data):
+        if data.get("is_restaurateur") and not data.get("stripe_seller_id") :
+            raise ValidationError(_('No stripe seller id.'), code='invalid')
+
+
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     is_restaurateur = models.BooleanField(default=False)
     stripe_id = models.CharField(max_length=100)
+    stripe_seller_id = models.CharField(max_length=100, null=True, blank=True, validators=[validate])

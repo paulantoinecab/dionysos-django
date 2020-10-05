@@ -133,3 +133,17 @@ CSRF_COOKIE_SECURE = True
 
 django_heroku.settings(locals())
 
+SECRET_KEY = 'iucr$h=5c$hlam2!+&*oxgtb9t&l(xt(wx*qlt53))^t7-hp#@'
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'Dionysos',
+        'USER': 'postgres',
+        'PASSWORD': 'root',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+    }
+}
+
+
