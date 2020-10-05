@@ -81,7 +81,7 @@ def create_order(request):
             foods = request.POST["foods"]
             table_id = request.POST["table"]["id"]
         except (KeyError, Exception):
-            return JsonResponse({"message": f'Missing foods, {request.POST.keys()}'} ,status=400)
+            return JsonResponse({"message": f'Missing foods, {request.POST}'} ,status=400)
         
         order = Order.objects.create(user=request.user, state=Order.OrderState.VALIDEE)
         ordered_foods = []
