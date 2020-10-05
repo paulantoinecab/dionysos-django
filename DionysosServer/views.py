@@ -80,7 +80,7 @@ def create_order(request):
         try:
             content = json.loads(request.POST["foods"])
             foods = content["foods"]
-            table_id = content["table"]
+            table_id = content["table"]["id"]
         except (KeyError, Exception):
             return JsonResponse({"message": 'Missing foods'} ,status=400)
         
