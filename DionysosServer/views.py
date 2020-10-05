@@ -110,7 +110,8 @@ def create_order(request):
             amount=int(amount * 100),
             currency='eur',
             payment_method_types=['card'],
-            receipt_email=request.user.username
+            receipt_email=request.user.username,
+            customer=request.user.userprofile.stripe_id
         )
         order.stripe_id = stripe_response['id']
         order.save()
