@@ -72,6 +72,8 @@ def sit_to_table(request, table_id):
     }
     return JsonResponse(response)
 
+@csrf_exempt
+@protected_resource()
 @require_http_methods(['POST'])
 def create_order(request):
     if request.user.is_authenticated:
@@ -176,7 +178,8 @@ def create_account(request):
     except IntegrityError:
         return JsonResponse({"message": "L'email existe déjà dans la base de données.","error": "duplicatedEmail"}, status=400)
     
-    stripe_customer = stripe.Customer.create(email=email)
+    name = f"{first_name} {last_name}"
+    stripe_customer = stripe.Customer.create(email=email , name=name)
 
     user_profile = UserProfile(is_restaurateur=is_restaurateur if is_restaurateur else False, stripe_id=stripe_customer.id)
     user_profile.user = user
