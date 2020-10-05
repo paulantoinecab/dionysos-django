@@ -160,7 +160,7 @@ def create_account(request):
         return JsonResponse({"message": 'Required fields : email, password, password2, firstName, lastName', "error": "missingFields"} ,status=400)
     
 
-    is_restaurateur = request.POST.get('Restaurateur')
+    is_restaurateur = content.get('Restaurateur')
     password_validator = RegexValidator("^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#_?\-&])[A-Za-z\d@$!%_*#?&\-]{8,}$", message="Le mot de passe est invalide. Il doit contenir au moins 8 caractères dont un caractère spécial, une majuscule, une minuscule et un nombre.")
     try:
         password_validator.__call__(password)
