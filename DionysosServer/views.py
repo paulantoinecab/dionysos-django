@@ -78,9 +78,8 @@ def sit_to_table(request, table_id):
 def create_order(request):
     if request.user.is_authenticated:
         try:
-            content = json.loads(request.POST["foods"])
-            foods = content["foods"]
-            table_id = content["table"]["id"]
+            foods = json.loads(request.POST["foods"])
+            table_id = content["table"]
         except (KeyError, Exception):
             return JsonResponse({"message": 'Missing foods'} ,status=400)
         
