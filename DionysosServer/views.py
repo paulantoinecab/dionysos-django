@@ -149,19 +149,24 @@ def stripe_webhook(request):
 @require_http_methods(['POST'])
 def create_account(request):
     try:
-        content = json.loads(request.body)
+        content = request.POST
 
         email = content['email']
         password = content['password']
         password2 = content['password2']
         first_name = content['firstName'].strip()
         last_name = content['lastName'].strip()
+        is_restaurateur = content.get('restaurant')
+
+        if is_restaurateur:
+            restaurant_name = content["restaurantName"].strip()
+            print(request.FILES["restaurantProfilePic"])
+            restaurant_profile_pic = request.FILES["restaurantProfilePic"]
 
     except KeyError:
         return JsonResponse({"message": 'Required fields : email, password, password2, firstName, lastName', "error": "missingFields"} ,status=400)
     
 
-    is_restaurateur = content.get('Restaurateur')
     password_validator = RegexValidator("^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#_?\-&])[A-Za-z\d@$!%_*#?&\-]{8,}$", message="Le mot de passe est invalide. Il doit contenir au moins 8 caractères dont un caractère spécial, une majuscule, une minuscule et un nombre.")
     try:
         password_validator.__call__(password)
@@ -185,6 +190,9 @@ def create_account(request):
     stripe_customer = stripe.Customer.create(email=email , name=name)
     stripe_account_id = None
     if is_restaurateur:
+        restaurant = Restaurant(name=restaurant_name, profilePic=restaurant_profile_pic)
+        restaurant.owner = user
+        restaurant.save()
         stripe_account = stripe.Account.create(
             type="express",
             country="FR",
@@ -193,7 +201,7 @@ def create_account(request):
         stripe_account_id = stripe_account.id
 
 
-    user_profile = UserProfile(is_restaurateur=is_restaurateur if is_restaurateur else False, stripe_id=stripe_customer.id, stripe_seller_id=stripe_account_id)
+    user_profile = UserProfile(is_restaurateur= (is_restaurateur == "true"), stripe_id=stripe_customer.id, stripe_seller_id=stripe_account_id)
     user_profile.user = user
     user_profile.save()
     return JsonResponse({"message": "Success"}, status=200)

@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'DionysosServer.apps.DionysosserverConfig',
+    'DionysosFrontEnd',
     'oauth2_provider',
     'corsheaders',
 
@@ -128,7 +129,5 @@ AWS_S3_REGION_NAME = 'eu-west-1'
 
 CORS_ORIGIN_ALLOW_ALL = True
 
-SESSION_COOKIE_SECURE= True
-CSRF_COOKIE_SECURE = True
 
 django_heroku.settings(locals())
