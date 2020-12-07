@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'DionysosServer.apps.DionysosserverConfig',
-    'DionysosFrontEnd',
     'oauth2_provider',
     'corsheaders',
 
