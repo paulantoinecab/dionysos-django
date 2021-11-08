@@ -121,8 +121,7 @@ def create_order(request):
     
 @csrf_exempt
 def stripe_webhook(request):
-    stripe.api_key = settings.STRIPE_SECRET_KEY
-    endpoint_secret = 'whsec_3y0OMasjWixPROyIFAF9kY7yL5aB3LbR'
+    endpoint_secret = os.environ.get("STRIPE_WEBHOOK_SECRET")
     payload = request.body
     sig_header = request.META['HTTP_STRIPE_SIGNATURE']
     event = None
