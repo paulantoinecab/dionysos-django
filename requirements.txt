@@ -45,3 +45,4 @@ whitenoise==5.2.0
 wrapt==1.12.1
 zope.interface==5.1.0
 numpy==1.19.2
+blurhash==1.1.3
