@@ -128,5 +128,10 @@ AWS_S3_REGION_NAME = 'eu-west-1'
 
 CORS_ORIGIN_ALLOW_ALL = True
 
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+DATABASES = os.environ.get("DATABASE_URL")
+
 
 django_heroku.settings(locals())

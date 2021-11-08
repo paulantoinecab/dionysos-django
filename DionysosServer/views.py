@@ -28,8 +28,9 @@ import stripe
 
 # Utilities 
 import json
+import os
 
-stripe.api_key = 'sk_test_51HGhdZAGNFbVchRHoIFnNKCmNUJuydMkWrdfRmjj6p8z8z1tVKL4vdW2FBj7185uRTc9qj7kLRtQlKk1c07YZa3u00ZoWXSKgv'
+stripe.api_key = os.environ.get("sk_test_51HGhdZAGNFbVchRHoIFnNKCmNUJuydMkWrdfRmjj6p8z8z1tVKL4vdW2FBj7185uRTc9qj7kLRtQlKk1c07YZa3u00ZoWXSKgv")
 
 def sit_to_table(request, table_id):
     table = get_object_or_404(Table, public_id=table_id)
@@ -148,6 +149,7 @@ def stripe_webhook(request):
 @csrf_exempt
 @require_http_methods(['POST'])
 def create_account(request):
+    print(request.POST)
     try:
         content = request.POST
 
