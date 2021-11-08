@@ -30,7 +30,7 @@ import stripe
 import json
 import os
 
-stripe.api_key = os.environ.get("sk_test_51HGhdZAGNFbVchRHoIFnNKCmNUJuydMkWrdfRmjj6p8z8z1tVKL4vdW2FBj7185uRTc9qj7kLRtQlKk1c07YZa3u00ZoWXSKgv")
+stripe.api_key = os.environ.get("STRIPE_KEY")
 
 def sit_to_table(request, table_id):
     table = get_object_or_404(Table, public_id=table_id)
