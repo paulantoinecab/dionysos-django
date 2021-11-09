@@ -1,5 +1,6 @@
 #  Dionysos Django Backend
 [![Django CI](https://github.com/paulantoinecab/DionysosBack/actions/workflows/django.yml/badge.svg)](https://github.com/paulantoinecab/DionysosBack/actions/workflows/django.yml)
+[![CodeQL](https://github.com/paulantoinecab/dionysos-django/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/paulantoinecab/dionysos-django/actions/workflows/codeql-analysis.yml)
 
 Dionysos is a service made for restaurants to digitalize their menus.\
 This is the backend project. It works using Python Django.\
